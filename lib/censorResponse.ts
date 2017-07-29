@@ -1,5 +1,5 @@
 /**
- * 关键词审查相关
+ * 关键词审查
  */
 import { createReadStream } from 'fs';
 import * as http from 'http';

@@ -1,5 +1,5 @@
 /**
- * 项目入口
+ * 运行入口
  */
 import * as Boom from 'boom';
 import * as http from 'http';
@@ -8,6 +8,7 @@ import * as net from 'net';
 import * as ProxyAgent from 'proxy-agent';
 import * as winston from 'winston';
 
+import { analyzeTraffic } from './lib/analyzeTraffic'
 import { censorResponse } from './lib/censorResponse';
 import { sendBoom } from './lib/sendBoom';
 
@@ -21,7 +22,7 @@ const server: http.Server = http.createServer((req: http.IncomingMessage, res: h
 
     return;
   }
-  winston.info(`新请求来自 ${req.headers.host} ${req.socket.remoteAddress}`);
+  winston.info(`新请求来自 ${req.socket.remoteAddress} - ${req.headers.host}${req.url}`);
   proxy.web(req, res, {
     // tslint:disable-next-line:no-http-string
     target: `http://${req.headers.host}`,
@@ -33,9 +34,9 @@ server.on('upgrade', (req: http.IncomingMessage, socket: net.Socket, head: Buffe
   proxy.ws(req, socket, head);
 });
 
-// tslint:disable-next-line:variable-name
-proxy.on('proxyRes', (proxyRes: http.IncomingMessage, _req: http.IncomingMessage, res: http.ServerResponse) => {
+proxy.on('proxyRes', (proxyRes: http.IncomingMessage, req: http.IncomingMessage, res: http.ServerResponse) => {
   censorResponse(proxyRes, res);
+  analyzeTraffic(proxyRes, req, res);
 });
 
 proxy.on('error', (err: Error) => {
