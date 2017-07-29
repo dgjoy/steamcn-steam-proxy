@@ -8,7 +8,7 @@ import * as net from 'net';
 import * as ProxyAgent from 'proxy-agent';
 import * as winston from 'winston';
 
-import { analyzeTraffic } from './lib/analyzeTraffic'
+import { analyzeTraffic } from './lib/analyzeTraffic';
 import { censorResponse } from './lib/censorResponse';
 import { sendBoom } from './lib/sendBoom';
 
@@ -44,4 +44,4 @@ proxy.on('error', (err: Error) => {
 });
 
 server.listen(80);
-winston.info('Listening...');
+winston.info('监听中...');

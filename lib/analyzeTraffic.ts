@@ -8,7 +8,7 @@ let totalTraffic: number = 0;
 
 setInterval(
   () => {
-    winston.info(`总流量：${totalTraffic / 1024 / 1024} MB`);
+    winston.info(`总流量：${(totalTraffic / 1024 / 1024).toFixed(3)} MB`);
   },
   10000
 );
