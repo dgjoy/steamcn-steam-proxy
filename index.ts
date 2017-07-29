@@ -22,6 +22,11 @@ const server: http.Server = http.createServer((req: http.IncomingMessage, res: h
 
     return;
   }
+  if (!req.headers['x-is-insider']) {
+    sendBoom(res, Boom.unauthorized('未认证，无权限使用'));
+
+    return;
+  }
   winston.info(`新请求来自 ${req.socket.remoteAddress} - ${req.headers.host}${req.url}`);
   proxy.web(req, res, {
     // tslint:disable-next-line:no-http-string
@@ -43,5 +48,5 @@ proxy.on('error', (err: Error) => {
   winston.error('代理请求出错', err);
 });
 
-server.listen(80);
+server.listen(27015);
 winston.info('监听中...');
