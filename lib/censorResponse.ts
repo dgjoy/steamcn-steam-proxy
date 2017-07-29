@@ -26,14 +26,22 @@ lineReader.on('line', (line: string) => {
   if (!line) {
     return;
   }
-  let parent: IWordsMapNode = keywordsMap;
-  for (const char of line) {
-    if (!parent.children[char]) {
-      parent.children[char] = { isEnd: false, children: {} };
-    }
-    parent = parent.children[char];
+  const words: string[] = [line];
+  let unicodeEscapeWord: string = '';
+  for (let i: number = 0; i < line.length; i += 1) {
+    unicodeEscapeWord += `\\u${(<number>line.codePointAt(i)).toString(16)}`;
   }
-  parent.isEnd = true;
+  words.push(unicodeEscapeWord);
+  for (const word of words) {
+    let parent: IWordsMapNode = keywordsMap;
+    for (const char of word) {
+      if (!parent.children[char]) {
+        parent.children[char] = { isEnd: false, children: {} };
+      }
+      parent = parent.children[char];
+    }
+    parent.isEnd = true;
+  }
 });
 
 class CensorshipTransform extends stream.Transform {
@@ -86,7 +94,7 @@ class CensorshipTransform extends stream.Transform {
         continue;
       }
 
-      s = s.replace(sWord, '♥'.repeat(sWord.length));
+      s = s.replace(sWord, '♥'.repeat(sWord.startsWith('\\u') ? sWord.length / 6 : sWord.length));
     }
     this.push(s);
     callback();
