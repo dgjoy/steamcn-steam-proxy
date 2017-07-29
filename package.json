@@ -1,0 +1,62 @@
+{
+  "name": "steamcn-steam-proxy",
+  "version": "0.0.1",
+  "description": "Steam web proxy provided by SteamCN.",
+  "engines": {
+    "node": ">= 8.2.1"
+  },
+  "author": "Stackia <jsq2627@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stackia/steamcn-steam-proxy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stackia/steamcn-steam-proxy/issues"
+  },
+  "homepage": "https://github.com/stackia/steamcn-steam-proxy#readme",
+  "scripts": {
+    "clean": "rimraf coverage tmp",
+    "start": "ts-node index.ts",
+    "watch": "nodemon index.ts",
+    "lint": "tslint -t stylish --fix --type-check --project tsconfig.json",
+    "pretest": "npm run lint",
+    "test": "npm run test-only",
+    "test-only": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "boom": "^5.2.0",
+    "http-proxy": "^1.16.2",
+    "proxy-agent": "^2.1.0",
+    "send-boom": "^0.1.0",
+    "ts-node": "^3.3.0",
+    "tslib": "^1.7.1",
+    "typescript": "^2.4.2",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/boom": "^4.3.5",
+    "@types/http-proxy": "^1.12.0",
+    "@types/jest": "^20.0.5",
+    "@types/node": "^8.0.17",
+    "@types/winston": "^2.3.4",
+    "jest": "^20.0.4",
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.6.1",
+    "ts-jest": "^20.0.7",
+    "tslint": "^5.5.0",
+    "tslint-microsoft-contrib": "^5.0.1"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  }
+}
