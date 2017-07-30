@@ -34,11 +34,11 @@ const server: http.Server = http.createServer((req: http.IncomingMessage, res: h
       steamId = match[1];
     }
   }
-  winston.info(`新请求来自 ${req.socket.remoteAddress} [${steamId}] - ${req.headers.host}${req.url}`);
+  const remoteAddress: string = <string>req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  winston.info(`新请求来自 ${remoteAddress} [${steamId}] - ${req.headers.host}${req.url}`);
   proxy.web(req, res, {
     // tslint:disable-next-line:no-http-string
-    target: `http://${req.headers.host}`,
-    xfwd: true
+    target: `http://${req.headers.host}`
   });
 });
 
