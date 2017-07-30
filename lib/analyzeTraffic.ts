@@ -10,7 +10,7 @@ setInterval(
   () => {
     winston.info(`总流量：${(totalTraffic / 1024 / 1024).toFixed(3)} MB`);
   },
-  10000
+  30000
 );
 
 export function analyzeTraffic (proxyRes: http.IncomingMessage, req: http.IncomingMessage, res: http.ServerResponse): void {

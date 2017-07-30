@@ -27,7 +27,14 @@ const server: http.Server = http.createServer((req: http.IncomingMessage, res: h
 
     return;
   }
-  winston.info(`新请求来自 ${req.socket.remoteAddress} - ${req.headers.host}${req.url}`);
+  let steamId: string = '未登录';
+  if (req.headers.cookie) {
+    const match: RegExpMatchArray | null = (<string>req.headers.cookie).match(/steamLogin=(\d+)/);
+    if (match) {
+      steamId = match[1];
+    }
+  }
+  winston.info(`新请求来自 ${req.socket.remoteAddress} [${steamId}] - ${req.headers.host}${req.url}`);
   proxy.web(req, res, {
     // tslint:disable-next-line:no-http-string
     target: `http://${req.headers.host}`,
