@@ -14,7 +14,7 @@ import { sendBoom } from './lib/sendBoom';
 
 const agent: http.Agent = new ProxyAgent('socks5://127.0.0.1:1080');
 const proxy: httpProxy = httpProxy.createProxyServer({ agent });
-const DOMAIN_WHITELIST: string[] = ['store.steampowered.com', 'steamcommunity.com', 'api.enhancedsteam.com'];
+const DOMAIN_WHITELIST: string[] = ['store.steampowered.com', 'steamcommunity.com'];
 
 const server: http.Server = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
   if (!DOMAIN_WHITELIST.includes(<string>req.headers.host)) {
